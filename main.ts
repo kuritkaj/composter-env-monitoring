@@ -1,39 +1,18 @@
-function sendData () {
-    radio.sendValue("movement", movement)
-    radio.sendValue("noise", noise)
-    serial.writeValue("movement", movement)
-    serial.writeValue("noise", noise)
-    movement = 0
-    noise = Environment.ReadNoise(AnalogPin.P2)
-}
-function movementDetected () {
-    movement = movement + 1
-    noise = (noise + Environment.ReadNoise(AnalogPin.P2)) / 2
-}
-let noise = 0
-let movement = 0
-led.enable(true)
-led.setBrightness(255)
+led.enable(false)
 radio.setGroup(2)
-radio.setTransmitPower(4)
-movement = 0
-noise = Environment.ReadNoise(AnalogPin.P2)
 basic.forever(function () {
-    if (tinkercademy.PIR(DigitalPin.P1)) {
-        movementDetected()
+    if (Environment.PIR(DigitalPin.P1) || Environment.ReadNoise(AnalogPin.P2) >= 40) {
+        if (Environment.PIR(DigitalPin.P1)) {
+            radio.sendValue("m", 1)
+        } else {
+            radio.sendValue("m", 0)
+        }
+        radio.sendValue("n", Environment.ReadNoise(AnalogPin.P2))
+        radio.sendValue("ll", input.lightLevel())
+        radio.sendValue("t", input.temperature())
+        radio.sendValue("mf", input.magneticForce(Dimension.X))
+        basic.pause(1000)
     } else {
-    	
-    }
-    led.plotBarGraph(
-    Math.min(100, Environment.ReadNoise(AnalogPin.P2)),
-    100,
-    true
-    )
-    basic.pause(1000)
-})
-control.inBackground(function () {
-    while (true) {
-        sendData()
-        basic.pause(5000)
+        basic.pause(2000)
     }
 })

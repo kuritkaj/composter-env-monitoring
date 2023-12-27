@@ -7,7 +7,11 @@
         "microphone": "*",
         "Environment-and-Science-IoT": "github:tinkertanker/pxt-iot-environment-kit#v5.1.7",
         "smarthome-kit": "github:tinkertanker/pxt-smarthome#v2.2.1",
-        "tinkercademy-tinker-kit": "github:tinkertanker/pxt-tinkercademy-tinker-kit#v1.1.1"
+        "tinkercademy-tinker-kit": "github:tinkertanker/pxt-tinkercademy-tinker-kit#v1.1.1",
+        "power": "github:microbit-foundation/pxt-microbit-v2-power#v0.2.3",
+        "smarttools": "github:51bit/smarttools#v0.3.4",
+        "radio-broadcast": "*",
+        "pxt-sonar": "github:microsoft/pxt-sonar#v0.0.5"
     },
     "files": [
         "main.blocks",
