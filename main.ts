@@ -1,17 +1,25 @@
-led.enable(true)
+function updateMovement (num: number) {
+    if (movement != num) {
+        movement = num
+        radio.setTransmitPower(7)
+        radio.sendValue("m", movement)
+        if (movement == 1) {
+            basic.showIcon(IconNames.Chessboard)
+        } else {
+            basic.showIcon(IconNames.SmallDiamond)
+        }
+    }
+    radio.setTransmitPower(4)
+}
+let movement = 0
 radio.setGroup(2)
 basic.showIcon(IconNames.Yes)
+movement = 0
 basic.forever(function () {
     if (Environment.PIR(DigitalPin.P1)) {
-        radio.sendValue("m", 1)
-        basic.showIcon(IconNames.Chessboard)
+        updateMovement(1)
     } else {
-        radio.sendValue("m", 0)
-        basic.clearScreen()
+        updateMovement(0)
     }
-    radio.sendValue("n", Environment.ReadNoise(AnalogPin.P2))
-    radio.sendValue("ll", input.lightLevel())
-    radio.sendValue("t", input.temperature())
-    radio.sendValue("mf", input.magneticForce(Dimension.X))
     basic.pause(1000)
 })
